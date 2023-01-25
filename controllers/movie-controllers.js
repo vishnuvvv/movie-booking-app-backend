@@ -1,12 +1,14 @@
 import Movie from "../models/Movie";
 import jwt from "jsonwebtoken";
 
+//############################################################################
+
 export const addMovie = async (req, res, next) => {
 
-  const extractedToken = req.headers.authorization.split(" ")[1]//"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2U2NDdmZTZmMThiZmEzZmYzZjZkYiIsImlhdCI6MTY3NDU4Njk5MCwiZXhwIjoxNjc1MTkxNzkwfQ.gyUo-dFVA08Ca7H4nDym7x3Bn-fcbQzLY-CHDsBZQCU";
-
+  const extractedToken = req.headers.authorization.split(" ")[1]; 
+  
   if (!extractedToken && extractedToken.trim() === "") {
-    return res.status(404).json({ message: "Token Not Found!" });              
+    return res.status(404).json({ message: "Token Not Found!" });
   }
   //console.log(extractedToken);
   //1.first we need to verify the token the decrypt the token and find adminid
@@ -22,7 +24,7 @@ export const addMovie = async (req, res, next) => {
     }
   });
 
-  console.log(adminId)
+  console.log(adminId);
 
   //2. create movie and store admin id inside movieSchema from the decrypted token
 
@@ -49,9 +51,9 @@ export const addMovie = async (req, res, next) => {
       posterUrl,
       featured,
       admin: adminId,
-
     });
     movie = await movie.save();
+
   } catch (error) {
     return console.log(error);
   }
@@ -60,7 +62,47 @@ export const addMovie = async (req, res, next) => {
     return res.status(500).json({ message: "Request Failed" });
   }
   return res.status(201).json({ movie });
-
 };
 
+//############################################################################
+
+export const getAllMovies = async (req, res, next) => {
+  let movies;
+
+  try {
+    movies = await Movie.find();
+  } catch (error) {
+    return console.log(error);
+  }
+
+  if (!movies) {
+    return res
+      .status(500)
+      .json({ message: "request failed! movies not found" });
+  }
+
+  return res.status(200).json({ movies });
+};
+
+//############################################################################
+
+export const getMovieById = async (req, res, next) => {
+
+  let movie;
+  const id = req.params.id;
+
+  try {
+    movie = await Movie.findById(id);
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (!movie) {
+    return res.status(404).json({ message: "Movie not found...!" });
+  }
+  
+  return res.status(200).json({ movie });
+};
+
+//############################################################################
 
