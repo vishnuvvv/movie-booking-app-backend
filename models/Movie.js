@@ -5,7 +5,7 @@ const movieSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  discription: {
+  description: {
     type: String,
     required: true,
   },
@@ -24,12 +24,11 @@ const movieSchema = mongoose.Schema({
     type: Boolean,
   },
 
-  bookings: [{ type: String }],
-
   admin: {
     type: String,
     required: true,
   },
+  bookings: [{ type: String }],
 
 });
 
