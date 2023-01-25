@@ -4,14 +4,15 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user-routes.js";
 import adminRouter from "./routes/admin-route.js";
 import movieRouter from "./routes/movie-route.js";
-
+import bookingRouter from "./routes/booking-routes.js";
 
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use("/user", userRouter);
-app.use("/admin",adminRouter)
-app.use("/movie",movieRouter )
+app.use("/admin", adminRouter);
+app.use("/movie", movieRouter);
+app.use("/booking", bookingRouter);
 
 mongoose.set("strictQuery", false);
 mongoose
@@ -26,6 +27,3 @@ mongoose
     )
   )
   .catch((e) => console.log(e));
-
-
-  
