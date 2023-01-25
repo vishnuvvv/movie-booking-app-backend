@@ -3,12 +3,12 @@ import jwt from "jsonwebtoken";
 
 export const addMovie = async (req, res, next) => {
 
-  const extractedToken = req.headers.authorization.split(" ")[1];
+  const extractedToken = req.headers.authorization.split(" ")[1]//"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2U2NDdmZTZmMThiZmEzZmYzZjZkYiIsImlhdCI6MTY3NDU4Njk5MCwiZXhwIjoxNjc1MTkxNzkwfQ.gyUo-dFVA08Ca7H4nDym7x3Bn-fcbQzLY-CHDsBZQCU";
 
   if (!extractedToken && extractedToken.trim() === "") {
-    return res.status(404).json({ message: "Token Not Found!" });
+    return res.status(404).json({ message: "Token Not Found!" });              
   }
-  console.log(extractedToken);
+  //console.log(extractedToken);
   //1.first we need to verify the token the decrypt the token and find adminid
 
   let adminId;
@@ -21,6 +21,8 @@ export const addMovie = async (req, res, next) => {
       return;
     }
   });
+
+  console.log(adminId)
 
   //2. create movie and store admin id inside movieSchema from the decrypted token
 
@@ -47,6 +49,7 @@ export const addMovie = async (req, res, next) => {
       posterUrl,
       featured,
       admin: adminId,
+
     });
     movie = await movie.save();
   } catch (error) {
@@ -57,4 +60,7 @@ export const addMovie = async (req, res, next) => {
     return res.status(500).json({ message: "Request Failed" });
   }
   return res.status(201).json({ movie });
+
 };
+
+
