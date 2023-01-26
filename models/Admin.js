@@ -11,10 +11,11 @@ const adminSchema = new mongoose.Schema({
     required: true,
     minlength: true,
   },
-  addMovies: [
+  addedMovies: [
     {
-      type: String,
-    },
+      type: mongoose.Types.ObjectId,
+      ref: "Movie",
+    }
   ],
 });
 

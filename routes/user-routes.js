@@ -1,6 +1,7 @@
 import {
   deleteUser,
   getAllUsers,
+  getBookingsOfUser,
   login,
   signup,
   updateUser,
@@ -14,5 +15,6 @@ userRouter.post("/signup", signup);
 userRouter.put("/:id", updateUser);
 userRouter.delete("/:id", deleteUser);
 userRouter.post("/login",login)
+userRouter.get("/bookings/:id",getBookingsOfUser)
 
 export default userRouter;
