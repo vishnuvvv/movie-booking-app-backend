@@ -2,6 +2,8 @@ import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 
+//##########################################################
+
 export const addAdmin = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -36,6 +38,8 @@ export const addAdmin = async (req, res, next) => {
   }
   return res.status(201).json({ message: "Admin created successfully", admin });
 };
+
+//##########################################################
 
 export const adminLogin = async (req, res, next) => {
   const { email, password } = req.body;
@@ -73,3 +77,21 @@ export const adminLogin = async (req, res, next) => {
 
   return res.status(200).json({message: "Successfully logged into the admin account!",token,id:existingAdmin._id})
 };
+
+//##########################################################
+
+export const getAllAdmins = async(req,res,next) =>{
+  let existingAdmins;
+
+  try {
+    existingAdmins = await Admin.find()
+  } catch (error) {
+    return console.log(error);
+  }
+
+  if(!existingAdmins){
+    return res.status(500).json({message : "Request faild"})
+  }
+
+  return res.status(200).json({existingAdmins})
+}

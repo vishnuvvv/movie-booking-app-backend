@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Bookings from "../models/Bookings";
 import bcrypt from "bcryptjs";
 
 export const getAllUsers = async (req, res, next) => {
@@ -32,14 +33,14 @@ export const signup = async (req, res, next) => {
   }
 
   try {
-    existingEmail = User.findOne({email})
+    existingEmail = User.findOne({ email });
   } catch (error) {
     console.log(error);
   }
-  if(existingEmail){
-    return res.status(400).json({message:"User already exists!"})
+  if (existingEmail) {
+    return res.status(400).json({ message: "User already exists!" });
   }
-  
+
   const hashedPassword = bcrypt.hashSync(password);
   const user = new User({
     name,
@@ -96,7 +97,7 @@ export const updateUser = async (req, res, next) => {
   res.status(200).json({ message: "Updated succesfully" });
 };
 
-//////////////////////////////////////////////////////////////
+//####################################################################
 
 export const deleteUser = async (req, res, next) => {
   let user;
@@ -137,11 +138,30 @@ export const login = async (req, res, next) => {
       .json({ message: "Unable to find the user from this id..!" });
   }
 
-  const isPasswordtrue = bcrypt.compareSync(password,existingUser.password);
+  const isPasswordtrue = bcrypt.compareSync(password, existingUser.password);
 
   if (!isPasswordtrue) {
     return res.status(400).json({ message: "Invalid password" });
   }
 
   return res.status(200).json({ message: "Login Successful..!" });
+};
+
+//####################################################################
+
+export const getBookingsOfUser = async (req, res, next) => {
+  const id = req.params.id;
+  let bookings;
+
+  try {
+    bookings = await Bookings.find({ user: id });
+  } catch (error) {
+    return console.log(error);
+  }
+
+  if (!bookings) {
+    return res.status(500).json({ message: "Unable to get Bookings" });
+  }
+
+  return res.status(200).json({ bookings });
 };
