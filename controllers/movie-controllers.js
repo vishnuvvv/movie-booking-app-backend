@@ -11,7 +11,7 @@ export const addMovie = async (req, res, next) => {
   if (!extractedToken && extractedToken.trim() === "") {
     return res.status(404).json({ message: "Token Not Found!" });
   }
-  //console.log(extractedToken);
+
   //1.first we need to verify the token the decrypt the token and find adminid
 
   let adminId;

@@ -19,7 +19,9 @@ export const getAllUsers = async (req, res, next) => {
 ////////////////////////////////////////////////////////////////////////
 
 export const signup = async (req, res, next) => {
-  let existingEmail;
+  
+  //let existingEmail;
+
   const { name, email, password } = req.body;
   if (
     !name &&
@@ -31,7 +33,7 @@ export const signup = async (req, res, next) => {
   ) {
     return res.status(422).json({ message: "Invalid credentials" });
   }
-
+/*
   try {
     existingEmail = User.findOne({ email });
   } catch (error) {
@@ -40,16 +42,17 @@ export const signup = async (req, res, next) => {
   if (existingEmail) {
     return res.status(400).json({ message: "User already exists!" });
   }
-
+*/
   const hashedPassword = bcrypt.hashSync(password);
-  const user = new User({
-    name,
-    email,
-    password: hashedPassword,
-  });
 
+  let user;
   try {
-    await user.save();
+    user = new User({
+      name,
+      email,
+      password: hashedPassword,
+    });
+    user = await user.save();
   } catch (err) {
     return console.log(err);
   }
@@ -57,7 +60,7 @@ export const signup = async (req, res, next) => {
   if (!user) {
     return res.status(500).json({ message: "Unexpected error ocuured" });
   }
-  return res.status(201).json({ user });
+  return res.status(201).json({ id: user._id });
 };
 
 /////////////////////////////////////////////////////////////////
