@@ -10,18 +10,17 @@ export const addAdmin = async (req, res, next) => {
   if (!email && email.trim() === "" && !password && password.trim() === "") {
     return res.status(422).json("Invalid inputs");
   }
-
+/*
   let existingAdmin;
-
   try {
     existingAdmin = await Admin.findOne({ email });
   } catch (err) {
     return console.log(err);
   }
-
   if (existingAdmin) {
     return res.status(400).json({ message: "admin already exists" });
   }
+*/
 
   let admin;
   const hashedPassword = bcrypt.hashSync(password);
@@ -75,7 +74,7 @@ export const adminLogin = async (req, res, next) => {
 
 
 
-  return res.status(200).json({message: "Successfully logged into the admin account!",token,id:existingAdmin._id})
+  return res.status(200).json({message: "Successfully logged into the admin account!",token, id:existingAdmin._id})
 };
 
 //##########################################################
