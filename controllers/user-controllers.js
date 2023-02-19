@@ -159,7 +159,7 @@ export const getBookingsOfUser = async (req, res, next) => {
   let bookings;
 
   try {
-    bookings = await Bookings.find({ user: id });
+    bookings = await Bookings.find({ user: id }).populate("user");
   } catch (error) {
     return console.log(error);
   }
