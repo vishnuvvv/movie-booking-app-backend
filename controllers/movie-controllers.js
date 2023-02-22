@@ -24,7 +24,6 @@ export const addMovie = async (req, res, next) => {
       return;
     }
   });
-
   console.log(adminId);
 
   //2. create movie and store admin id inside movieSchema from the decrypted token
