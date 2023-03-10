@@ -16,15 +16,17 @@ app.use("/admin", adminRouter);
 app.use("/movie", movieRouter);
 app.use("/booking", bookingRouter);
 
+
+const PORT = process.env.PORT
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
     `mongodb+srv://admin:${process.env.MONGODB_PASSWORD}@cluster0.lppoess.mongodb.net/?retryWrites=true&w=majority`
   )
   .then(() =>
-    app.listen(5000, () =>
+    app.listen(PORT, () =>
       console.log(
-        "Connected to Database and server is running on Local host port:5000"
+        `Connected to Database and server is running on port:${PORT}`
       )
     )
   )
